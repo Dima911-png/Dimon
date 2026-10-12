@@ -1,61 +1,539 @@
+
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="ClipGenius AI — идеи, сценарии, заголовки и контент-планы для коротких видео."><title>ClipGenius AI — создавай контент быстрее</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="ClipGenius AI — free AI video script generator.">
+<meta name="theme-color" content="#f6f8fc">
+<title>ClipGenius AI — AI Video Creator</title>
 <style>
-:root{--bg:#0b0d12;--panel:#131721;--panel2:#191f2b;--text:#f4f6fb;--muted:#a4adbd;--line:#2a3241;--lime:#c8ff58;--purple:#a995ff;--mint:#8ee8d8}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#283322 0,transparent 35%),var(--bg);color:var(--text);font:16px/1.55 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}.nav{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff12}.brand{font-size:20px;font-weight:900;letter-spacing:-.06em}.brand span{color:var(--lime)}.navlinks{display:flex;align-items:center;gap:24px;color:var(--muted);font-size:14px}.btn{border:0;border-radius:12px;background:var(--lime);color:#11170a;font-weight:850;padding:13px 18px;cursor:pointer;display:inline-flex;justify-content:center;align-items:center;gap:8px;transition:.18s}.btn:hover{transform:translateY(-2px);filter:brightness(1.06)}.btn:disabled{opacity:.65;cursor:wait;transform:none}.btn.secondary{background:#ffffff08;border:1px solid var(--line);color:var(--text)}.btn.small{padding:10px 14px;font-size:13px}.hero{padding:76px 0 60px;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}.eyebrow{color:var(--lime);font-size:12px;text-transform:uppercase;letter-spacing:.15em;font-weight:850;display:flex;align-items:center;gap:9px}.spark{width:7px;height:7px;background:var(--lime);border-radius:50%;box-shadow:0 0 14px var(--lime)}h1{font-size:clamp(42px,6.5vw,72px);line-height:.99;letter-spacing:-.07em;margin:18px 0 22px}h1 em{font-style:normal;color:var(--lime)}.lead{font-size:18px;color:var(--muted);max-width:580px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin:27px 0 17px}.micro{font-size:12px;color:#7f8a9d}.preview{background:linear-gradient(145deg,#1c2430,#11151d);border:1px solid #ffffff1c;border-radius:24px;padding:20px;box-shadow:0 28px 100px #0006;position:relative;overflow:hidden}.preview:after{content:"";position:absolute;inset:auto -90px -140px auto;width:250px;height:250px;background:#c8ff5815;filter:blur(25px);border-radius:50%;pointer-events:none}.appbar{display:flex;align-items:center;justify-content:space-between;padding-bottom:15px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}.appbar strong{color:var(--text)}.status{border:1px solid #c8ff5840;color:var(--lime);border-radius:99px;padding:4px 9px;font-size:10px}.fakeform{padding:19px 0}.fakeform label,.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:7px}.fakeform .fakeinput{background:#0c1017;border:1px solid #303847;border-radius:10px;padding:11px 12px;color:#e5e9f2;font-size:13px;margin-bottom:12px}.fakeout{border:1px solid #3a4532;background:#141c15;border-radius:13px;padding:14px}.fakeout .tag{font-size:10px;color:var(--lime);letter-spacing:.12em}.fakeout h3{font-size:18px;margin:8px 0}.fakeout p{font-size:12px;color:#b6c0ce;margin:0}.section{padding:64px 0}.sectionhead{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:25px}.sectionhead h2{font-size:clamp(30px,4vw,45px);letter-spacing:-.05em;line-height:1.05;margin:10px 0 0}.sectionhead p{max-width:430px;color:var(--muted);margin:0}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:23px}.ico{font-size:25px}.card h3{margin:14px 0 7px;font-size:18px}.card p{color:var(--muted);font-size:14px;margin:0}.toolbox{display:grid;grid-template-columns:.85fr 1.15fr;gap:18px;align-items:start}.panel{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:24px}.panel h3{margin:0;font-size:22px;letter-spacing:-.03em}.muted{color:var(--muted);font-size:13px}.field{margin:18px 0}.field label{font-size:13px;color:#e1e5ee;font-weight:700}.field input,.field select,.field textarea{width:100%;background:#0b1017;color:var(--text);border:1px solid #303847;border-radius:10px;padding:12px;outline:none}.field textarea{min-height:82px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--lime)}.outhead{display:flex;justify-content:space-between;align-items:center;gap:10px}.output{background:#0b1017;border:1px solid #303847;border-radius:14px;padding:18px;margin-top:16px;min-height:280px;white-space:pre-wrap;font-size:14px;color:#e5e9f2}.placeholder{color:#758195}.output h4{margin:0 0 9px;color:var(--lime);font-size:12px;text-transform:uppercase;letter-spacing:.1em}.output .resulttitle{font-size:19px;font-weight:850;margin:4px 0 12px;letter-spacing:-.03em}.output .resultbody{color:#c4ccd8}.output .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}.chip{font-size:12px;color:var(--mint);background:#8ee8d811;border:1px solid #8ee8d82b;padding:5px 9px;border-radius:99px}.output ul{padding-left:19px}.output li{margin:6px 0}.prices{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.pricecard{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px;position:relative}.pricecard.featured{border-color:#c8ff586b;background:linear-gradient(160deg,#1d2818,var(--panel) 65%)}.ribbon{position:absolute;right:15px;top:15px;font-size:10px;color:var(--lime);letter-spacing:.1em}.plan{font-weight:850;font-size:18px}.price{font-size:38px;font-weight:900;letter-spacing:-.06em;margin:14px 0 0}.price small{font-size:13px;color:var(--muted);letter-spacing:0;font-weight:500}.pricecard p{font-size:13px;color:var(--muted)}.pricecard ul{padding-left:18px;color:#d5dbe5;font-size:13px;min-height:100px}.pricecard li{margin:8px 0}.pricecard .btn{width:100%}.note{background:#151922;border:1px solid var(--line);border-radius:14px;padding:15px;color:#b8c0cd;font-size:12px;margin-top:18px}.faq{display:grid;grid-template-columns:1fr 1fr;gap:12px}.faq details{border:1px solid var(--line);border-radius:13px;padding:17px;background:var(--panel)}.faq summary{font-weight:750;cursor:pointer}.faq details p{color:var(--muted);font-size:14px;margin-bottom:0}.cta{border:1px solid #c8ff583b;background:linear-gradient(130deg,#202b18,#131820 60%);border-radius:24px;padding:34px;display:flex;justify-content:space-between;gap:25px;align-items:center}.cta h2{font-size:clamp(28px,4vw,40px);letter-spacing:-.05em;line-height:1.08;margin:8px 0}.cta p{color:var(--muted);max-width:570px;margin:0}.footer{border-top:1px solid var(--line);padding:25px 0 36px;margin-top:64px;color:#7e899a;font-size:12px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}.toast{position:fixed;bottom:18px;left:50%;transform:translate(-50%,15px);opacity:0;pointer-events:none;background:var(--lime);color:#11170a;padding:11px 16px;border-radius:10px;font-weight:800;font-size:13px;transition:.2s;z-index:10}.toast.show{opacity:1;transform:translate(-50%,0)}@media(max-width:800px){.hero{grid-template-columns:1fr;padding-top:50px;gap:30px}.toolbox{grid-template-columns:1fr}.grid3,.prices{grid-template-columns:1fr}.sectionhead{display:block}.sectionhead p{margin-top:12px}.faq{grid-template-columns:1fr}.cta{display:block}.cta .btn{margin-top:20px}.navlinks a:not(.btn){display:none}}@media(max-width:440px){.wrap{width:calc(100% - 28px)}.nav{height:65px}.hero{padding-top:38px}.panel{padding:18px}.preview{padding:15px}.section{padding:48px 0}.cta{padding:24px}}
-</style></head>
+:root {
+  --bg:#f6f8fc;
+  --surface:#ffffff;
+  --surface2:#f0f4fa;
+  --text:#172033;
+  --muted:#64748b;
+  --line:#e1e7f0;
+  --accent:#3568ed;
+  --accent-hover:#2452cc;
+  --success:#16804a;
+  --shadow:0 12px 40px #243b6010;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:85px}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font:16px/1.6 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.wrap{width:min(1120px,calc(100% - 36px));margin:auto}
+.nav{
+  position:sticky;top:0;z-index:5;background:#ffffffed;
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line);
+}
+.navinner{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-size:21px;font-weight:900;letter-spacing:-1px;white-space:nowrap}
+.brand span{color:var(--accent)}
+.navright{display:flex;align-items:center;gap:14px}
+.navlinks{display:flex;gap:20px;color:var(--muted);font-size:14px}
+select,button,input,textarea{max-width:100%}
+.lang{
+  border:1px solid var(--line);border-radius:10px;padding:9px 10px;
+  background:var(--surface);color:var(--text);font-weight:700
+}
+.btn{
+  border:0;border-radius:12px;background:var(--accent);color:white;
+  font-weight:750;padding:12px 18px;display:inline-flex;
+  align-items:center;justify-content:center;gap:8px;transition:.18s
+}
+.btn:hover{background:var(--accent-hover);transform:translateY(-1px)}
+.btn:disabled{opacity:.65;cursor:wait;transform:none}
+.btn.secondary{background:white;color:var(--text);border:1px solid var(--line)}
+.btn.secondary:hover{background:var(--surface2)}
+.btn.small{padding:9px 13px;font-size:13px}
+.hero{
+  display:grid;grid-template-columns:1.1fr .9fr;gap:48px;
+  align-items:center;padding:78px 0 58px
+}
+.eyebrow{font-size:12px;font-weight:850;color:var(--accent);letter-spacing:.11em;text-transform:uppercase}
+h1{font-size:clamp(42px,6.5vw,70px);line-height:1.04;letter-spacing:-.055em;margin:16px 0}
+h1 em{font-style:normal;color:var(--accent)}
+.lead{font-size:18px;color:var(--muted);max-width:570px}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0 16px}
+.micro{font-size:13px;color:var(--muted)}
+.preview,.panel,.card,.faq details,.freebox{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:20px;box-shadow:var(--shadow)
+}
+.preview{padding:22px}
+.appbar{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding-bottom:15px}
+.status{font-size:11px;font-weight:800;color:var(--success);background:#e8f8ef;padding:5px 9px;border-radius:99px}
+.fakeform{padding-top:18px}
+.fakeinput{background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:12px;margin:7px 0 16px;font-size:14px}
+.fakeout{background:#f1f5ff;border:1px solid #dce6ff;border-radius:14px;padding:16px}
+.fakeout h3{margin:8px 0;font-size:18px;line-height:1.35}
+.fakeout p{margin:0;color:var(--muted);font-size:13px}
+.section{padding:54px 0}
+.sectionhead{display:flex;justify-content:space-between;align-items:end;gap:25px;margin-bottom:24px}
+.sectionhead h2{font-size:clamp(29px,4vw,43px);letter-spacing:-.04em;line-height:1.12;margin:8px 0 0}
+.sectionhead p{max-width:460px;color:var(--muted);margin:0}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.card{padding:22px;box-shadow:none}
+.ico{font-size:25px}
+.card h3{font-size:17px;margin:12px 0 6px}
+.card p{font-size:14px;color:var(--muted);margin:0}
+.toolbox{display:grid;grid-template-columns:.85fr 1.15fr;gap:18px;align-items:start}
+.panel{padding:23px;min-width:0}
+.panel h3{margin:0;font-size:21px;letter-spacing:-.025em}
+.muted{color:var(--muted);font-size:13px}
+.field{margin:17px 0}
+.field label{display:block;font-size:13px;font-weight:750;margin-bottom:7px}
+.field input,.field select,.field textarea{
+  width:100%;background:#fff;color:var(--text);
+  border:1px solid #d6deeb;border-radius:10px;padding:12px;outline:none
+}
+.field textarea{min-height:100px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{
+  border-color:var(--accent);box-shadow:0 0 0 3px #3568ed18
+}
+.outhead{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.output{
+  background:#fbfcff;border:1px solid var(--line);border-radius:13px;
+  padding:17px;margin-top:16px;min-height:300px;white-space:pre-wrap;
+  overflow-wrap:anywhere;font-size:14px
+}
+.placeholder{color:#7c899e}
+.freebox{
+  display:flex;align-items:center;gap:13px;padding:20px;
+  background:#edfaf2;border-color:#d1f0dc;box-shadow:none
+}
+.freeicon{font-size:26px}
+.freebox strong{display:block;color:#17683c}
+.freebox p{margin:2px 0 0;color:#427458;font-size:14px}
+.faq{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.faq details{padding:17px;box-shadow:none}
+.faq summary{font-weight:750;cursor:pointer}
+.faq details p{color:var(--muted);font-size:14px;margin-bottom:0}
+.cta{padding:30px;background:#edf3ff;border:1px solid #dce7ff;border-radius:20px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.cta h2{margin:7px 0;font-size:clamp(26px,4vw,38px);line-height:1.15}
+.cta p{color:var(--muted);margin:0}
+.footer{border-top:1px solid var(--line);padding:25px 0 35px;margin-top:55px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.toast{
+  position:fixed;bottom:18px;left:50%;transform:translate(-50%,12px);
+  opacity:0;pointer-events:none;background:#172033;color:white;padding:11px 16px;
+  border-radius:10px;font-weight:700;font-size:13px;transition:.2s;z-index:10;
+  max-width:calc(100% - 28px);text-align:center
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+[dir="rtl"] .navinner,[dir="rtl"] .navright{direction:rtl}
+[dir="rtl"] .output,[dir="rtl"] .field input,[dir="rtl"] .field textarea{ text-align:right }
+@media(max-width:800px){
+  .hero,.toolbox{grid-template-columns:1fr}
+  .hero{padding-top:48px;gap:28px}
+  .grid3{grid-template-columns:repeat(2,1fr)}
+  .sectionhead{display:block}
+  .sectionhead p{margin-top:12px}
+  .navlinks{display:none}
+}
+@media(max-width:540px){
+  .wrap{width:calc(100% - 28px)}
+  .navinner{min-height:66px}
+  .brand{font-size:18px}
+  .navright{gap:8px}
+  .navright .btn{display:none}
+  .hero{padding-top:38px}
+  .grid3,.faq{grid-template-columns:1fr}
+  .section{padding:40px 0}
+  .panel,.preview{padding:17px}
+  .outhead{align-items:flex-start;flex-wrap:wrap}
+  .cta{display:block;padding:22px}
+  .cta .btn{margin-top:18px}
+}
+</style>
+</head>
 <body>
-<header class="wrap nav"><a class="brand" href="#top">Clip<span>Genius</span> AI</a><nav class="navlinks"><a href="#features">Возможности</a><a href="#tool">Попробовать</a><a href="#pricing">Тарифы</a><a class="btn small" href="#tool">Создать контент ↗</a></nav></header>
+<header class="nav">
+  <div class="wrap navinner">
+    <a class="brand" href="#top">Clip<span>Genius</span> AI</a>
+    <div class="navright">
+      <nav class="navlinks">
+        <a href="#features" data-i18n="navFeatures">Возможности</a>
+        <a href="#tool" data-i18n="navTool">Генератор</a>
+        <a href="#faq" data-i18n="navFaq">Вопросы</a>
+      </nav>
+      <select class="lang" id="language" aria-label="Language">
+        <option value="ru">🇷🇺 Русский</option>
+        <option value="en">🇬🇧 English</option>
+        <option value="kk">🇰🇿 Қазақша</option>
+        <option value="zh">🇨🇳 中文</option>
+        <option value="ar">🇸🇦 العربية</option>
+      </select>
+      <a class="btn small" href="#tool" data-i18n="navStart">Начать ↗</a>
+    </div>
+  </div>
+</header>
+
 <main id="top">
-<section class="wrap hero"><div><div class="eyebrow"><span class="spark"></span> Твоя контент-команда на старте</div><h1>Хорошие идеи.<br><em>Быстрее видео.</em></h1><p class="lead">Превращай тему в сценарий короткого ролика, цепляющий заголовок и хэштеги — без долгого сидения перед пустым экраном.</p><div class="actions"><a class="btn" href="#tool">Создать первый сценарий ↗</a><a class="btn secondary" href="#features">Как это работает</a></div><div class="micro">Демо без регистрации · Бесплатный старт · Результат можно скопировать</div></div>
-<div class="preview"><div class="appbar"><strong>✦ ClipGenius Studio</strong><span class="status">DEMO WORKSPACE</span></div><div class="fakeform"><label>ТЕМА ВИДЕО</label><div class="fakeinput">3 ошибки начинающего автора</div><label>ПЛАТФОРМА</label><div class="fakeinput">TikTok / Reels / Shorts</div><div class="fakeout"><div class="tag">ПРИМЕР СЦЕНАРИЯ</div><h3>Ты теряешь зрителей в первые 3 секунды?</h3><p>Начни с конкретной ошибки, покажи короткий пример и закончи одним действием, которое зритель может попробовать сегодня.</p></div></div></div></section>
-<section class="wrap section" id="features"><div class="sectionhead"><div><div class="eyebrow">Что делает сервис</div><h2>От темы к публикации</h2></div><p>Один простой рабочий процесс для авторов, которым нужно публиковаться регулярно.</p></div><div class="grid3"><article class="card"><div class="ico">✍️</div><h3>Сценарии с сильным началом</h3><p>Структура ролика: хук, основная мысль, пример и призыв к действию.</p></article><article class="card"><div class="ico">⚡</div><h3>Заголовки и описание</h3><p>Несколько вариантов упаковки, чтобы быстрее тестировать подачу темы.</p></article><article class="card"><div class="ico">#️⃣</div><h3>Хэштеги по теме</h3><p>Набор тематических тегов без обещаний гарантированных просмотров.</p></article><article class="card"><div class="ico">🗓️</div><h3>Контент-план</h3><p>Список тем на неделю, чтобы не начинать с нуля перед каждой публикацией.</p></article><article class="card"><div class="ico">🎯</div><h3>Подстройка под площадку</h3><p>Разные рекомендации для Shorts, TikTok, Reels и видео подлиннее.</p></article><article class="card"><div class="ico">📋</div><h3>Копирование в один клик</h3><p>Забирай готовый текст в заметки или редактор видео и дорабатывай под себя.</p></article></div></section>
-<section class="wrap section" id="tool"><div class="sectionhead"><div><div class="eyebrow">Попробуй бесплатно</div><h2>Твой генератор контента</h2></div><p>Введи тему — получи черновик, который можно сразу скопировать и улучшить.</p></div><div class="toolbox"><div class="panel"><h3>Настройки ролика</h3><p class="muted">Чем точнее тема, тем полезнее результат.</p><div class="field"><label for="topic">О чём видео?</label><textarea id="topic" placeholder="Например: как учиться играть на пианино каждый день" maxlength="500"></textarea></div><div class="field"><label for="platform">Площадка</label><select id="platform"><option>TikTok</option><option>YouTube Shorts</option><option>Instagram Reels</option><option>YouTube — длинное видео</option></select></div><div class="field"><label for="tone">Стиль</label><select id="tone"><option value="curious">Любопытный и интригующий</option><option value="expert">Экспертный и понятный</option><option value="fun">Лёгкий и смешной</option><option value="story">Личный рассказ</option></select></div><div class="field"><label for="audience">Для кого?</label><input id="audience" placeholder="Например: начинающие музыканты" maxlength="150"></div><button class="btn" id="generate" style="width:100%">Сгенерировать черновик ✦</button><p class="muted" style="margin-bottom:0" id="modeNote">Проверяем подключение к ИИ…</p></div>
-<div class="panel"><div class="outhead"><div><h3>Твой результат</h3><div class="muted">Сценарий · заголовки · хэштеги</div></div><button class="btn secondary small" id="copy">Копировать текст</button></div><div class="output" id="output" aria-live="polite"><span class="placeholder">Введи тему слева и нажми «Сгенерировать черновик». Если сайт запущен с сервером и API-ключом, ответ создаст настоящая ИИ-модель.</span></div></div></div></section>
-<section class="wrap section" id="pricing"><div class="sectionhead"><div><div class="eyebrow">Модель монетизации</div><h2>Сначала бесплатно.<br>Плати за экономию времени.</h2></div><p>Цены ниже — гипотезы для тестирования. Не запускай платный тариф, пока не убедишься, что люди возвращаются к продукту.</p></div><div class="prices"><article class="pricecard"><div class="plan">Free</div><div class="price">€0 <small>/ навсегда</small></div><p>Чтобы попробовать и понять ценность.</p><ul><li>5 черновиков в день</li><li>Заголовки и хэштеги</li><li>Копирование результатов</li></ul><a class="btn secondary" href="#tool">Попробовать бесплатно</a></article><article class="pricecard featured"><span class="ribbon">РЕКОМЕНДУЕМ ТЕСТИРОВАТЬ</span><div class="plan">Creator</div><div class="price">€9 <small>/ месяц</small></div><p>Для авторов, публикующих регулярно.</p><ul><li>Больше генераций</li><li>Контент-планы на неделю</li><li>Несколько вариантов сценария</li></ul><button class="btn" data-plan="Creator">Сообщить о запуске</button></article><article class="pricecard"><div class="plan">Pro</div><div class="price">€19 <small>/ месяц</small></div><p>Для активных авторов и небольших команд.</p><ul><li>Расширенные шаблоны</li><li>Брендовый тон и форматы</li><li>Пакетная подготовка идей</li></ul><button class="btn secondary" data-plan="Pro">Сообщить о запуске</button></article></div><div class="note">На данный момент тарифы — концепция, а не активная подписка. Оплата, учёт аккаунтов, реальные лимиты и подключение ИИ-модели ещё не реализованы. Не принимай платежи до готовности этих функций.</div></section>
-<section class="wrap section"><div class="sectionhead"><div><div class="eyebrow">Частые вопросы</div><h2>Честно о продукте</h2></div></div><div class="faq"><details><summary>Это настоящий ИИ?</summary><p>Текущая демо-версия собирает черновики по встроенным шаблонам в браузере. Для настоящей генерации нужно подключить ИИ API через сервер, чтобы не раскрывать секретный ключ.</p></details><details><summary>Можно ли заработать миллион на таком сервисе?</summary><p>Теоретически можно построить крупный бизнес, но это не гарантировано. Нужны реальный спрос, удержание пользователей, надёжный продукт и экономика, которая сходится после расходов и налогов.</p></details><details><summary>Как начать без бюджета?</summary><p>Проведи 10–20 интервью с авторами, дай людям протестировать прототип и попроси конкретную обратную связь. Начни с ручной проверки результатов, прежде чем покупать инфраструктуру.</p></details><details><summary>Будут ли просмотры гарантированы?</summary><p>Нет. Сервис помогает готовить идеи и тексты, но охваты зависят от содержания, аудитории, качества видео, времени публикации и алгоритмов платформ.</p></details></div></section>
-<section class="wrap"><div class="cta"><div><div class="eyebrow">Начни с одного ролика</div><h2>Проверь идею на практике</h2><p>Сделай первый черновик, опубликуй видео и узнай, что действительно нужно твоей аудитории. Продукт растёт из обратной связи, а не из обещаний.</p></div><a class="btn" href="#tool">Открыть генератор ↗</a></div></section>
-</main><footer class="wrap footer"><span>© ClipGenius AI · Концепт продукта</span><span>Демо не является полноценной ИИ-службой или финансовой рекомендацией.</span></footer><div class="toast" id="toast"></div>
+<section class="wrap hero">
+  <div>
+    <div class="eyebrow" data-i18n="eyebrow">✦ ТВОЯ ИИ-КОМАНДА ДЛЯ КОНТЕНТА</div>
+    <h1 data-i18n-html="heroTitle">Хорошие идеи.<br><em>Быстрее видео.</em></h1>
+    <p class="lead" data-i18n="heroLead">Создавай сценарии, заголовки, описания и хэштеги для видео с помощью ИИ.</p>
+    <div class="actions">
+      <a class="btn" href="#tool" data-i18n="heroButton">Создать сценарий ↗</a>
+      <a class="btn secondary" href="#features" data-i18n="heroLearn">Возможности</a>
+    </div>
+    <div class="micro" data-i18n="heroMicro">Без регистрации · Бесплатно · Результат можно скопировать</div>
+  </div>
+  <div class="preview">
+    <div class="appbar">
+      <strong>✦ ClipGenius Studio</strong>
+      <span class="status" data-i18n="freeBadge">БЕСПЛАТНО</span>
+    </div>
+    <div class="fakeform">
+      <div class="muted" data-i18n="sampleTopicLabel">ПРИМЕР ТЕМЫ</div>
+      <div class="fakeinput" data-i18n="sampleTopic">3 ошибки начинающего автора</div>
+      <div class="muted" data-i18n="samplePlatformLabel">ПЛАТФОРМА</div>
+      <div class="fakeinput">TikTok / Reels / Shorts</div>
+      <div class="fakeout">
+        <div class="eyebrow" data-i18n="sampleResultLabel">ПРИМЕР СЦЕНАРИЯ</div>
+        <h3 data-i18n="sampleHeadline">Ты теряешь зрителей в первые секунды?</h3>
+        <p data-i18n="sampleText">Начни с конкретной ошибки, покажи пример и закончи полезным советом.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap section" id="features">
+  <div class="sectionhead">
+    <div><div class="eyebrow" data-i18n="featuresEyebrow">ВОЗМОЖНОСТИ</div><h2 data-i18n="featuresTitle">От идеи до публикации</h2></div>
+    <p data-i18n="featuresLead">Инструменты для авторов, которым нужно создавать контент регулярно.</p>
+  </div>
+  <div class="grid3">
+    <article class="card"><div class="ico">✍️</div><h3 data-i18n="feature1Title">Сценарии для видео</h3><p data-i18n="feature1Text">Структура, сильное начало, основная часть и финал.</p></article>
+    <article class="card"><div class="ico">⚡</div><h3 data-i18n="feature2Title">Заголовки и описания</h3><p data-i18n="feature2Text">Несколько вариантов подачи твоей темы.</p></article>
+    <article class="card"><div class="ico">#️⃣</div><h3 data-i18n="feature3Title">Хэштеги</h3><p data-i18n="feature3Text">Идеи релевантных хэштегов для публикации.</p></article>
+    <article class="card"><div class="ico">🗓️</div><h3 data-i18n="feature4Title">Контент-план</h3><p data-i18n="feature4Text">Идеи для следующих видео на основе темы.</p></article>
+    <article class="card"><div class="ico">🎯</div><h3 data-i18n="feature5Title">Разные платформы</h3><p data-i18n="feature5Text">TikTok, Shorts, Reels и длинные видео.</p></article>
+    <article class="card"><div class="ico">📋</div><h3 data-i18n="feature6Title">Копирование</h3><p data-i18n="feature6Text">Скопируй готовый результат и доработай его.</p></article>
+  </div>
+</section>
+
+<section class="wrap section" id="tool">
+  <div class="sectionhead">
+    <div><div class="eyebrow" data-i18n="toolEyebrow">ПОПРОБУЙ СЕЙЧАС</div><h2 data-i18n="toolTitle">Твой генератор контента</h2></div>
+    <p data-i18n="toolLead">Укажи тему и настройки, чтобы создать сценарий с помощью ИИ.</p>
+  </div>
+  <div class="freebox" style="margin-bottom:18px">
+    <div class="freeicon">🎉</div>
+    <div><strong data-i18n="freeTitle">Сервис пока полностью бесплатный</strong><p data-i18n="freeText">Никаких тарифов и оплаты на данном этапе.</p></div>
+  </div>
+  <div class="toolbox">
+    <div class="panel">
+      <h3 data-i18n="settingsTitle">Настройки видео</h3>
+      <p class="muted" data-i18n="settingsLead">Чем точнее тема, тем полезнее результат.</p>
+      <div class="field"><label for="topic" data-i18n="topicLabel">О чём видео?</label><textarea id="topic" maxlength="500" data-i18n-placeholder="topicPlaceholder" placeholder="Например: как научиться играть на пианино"></textarea></div>
+      <div class="field"><label for="platform" data-i18n="platformLabel">Платформа</label><select id="platform"><option value="TikTok">TikTok</option><option value="YouTube Shorts">YouTube Shorts</option><option value="Instagram Reels">Instagram Reels</option><option value="YouTube — длинное видео">YouTube — длинное видео</option></select></div>
+      <div class="field"><label for="tone" data-i18n="toneLabel">Стиль</label><select id="tone"><option value="curious" data-i18n="toneCurious">Любопытный и интригующий</option><option value="expert" data-i18n="toneExpert">Экспертный и понятный</option><option value="fun" data-i18n="toneFun">Лёгкий и смешной</option><option value="story" data-i18n="toneStory">Личный рассказ</option></select></div>
+      <div class="field"><label for="audience" data-i18n="audienceLabel">Для кого?</label><input id="audience" maxlength="150" data-i18n-placeholder="audiencePlaceholder" placeholder="Например: начинающие музыканты"></div>
+      <button class="btn" id="generate" style="width:100%" data-i18n="generateButton">✨ Создать сценарий</button>
+      <p class="muted" id="modeNote" data-i18n="checking">Проверяем подключение к ИИ…</p>
+    </div>
+    <div class="panel">
+      <div class="outhead"><div><h3 data-i18n="resultTitle">Результат</h3><div class="muted" data-i18n="resultSubtitle">Сценарий · заголовки · хэштеги</div></div><button class="btn secondary small" id="copy" data-i18n="copyButton">Копировать</button></div>
+      <div class="output" id="output" aria-live="polite"><span class="placeholder" data-i18n="outputPlaceholder">Введи тему слева и нажми кнопку создания сценария.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap section" id="faq">
+  <div class="sectionhead"><div><div class="eyebrow" data-i18n="faqEyebrow">ВОПРОСЫ</div><h2 data-i18n="faqTitle">Полезно знать</h2></div></div>
+  <div class="faq">
+    <details><summary data-i18n="faq1Q">Сервис действительно бесплатный?</summary><p data-i18n="faq1A">Да. Сейчас на сайте нет платных тарифов и приёма платежей. Работа ИИ может зависеть от доступности и лимитов API.</p></details>
+    <details><summary data-i18n="faq2Q">На каком языке создаётся сценарий?</summary><p data-i18n="faq2A">Выбери язык в меню. Интерфейс меняется сразу. Для генерации на выбранном языке сервер также должен получать настройку языка.</p></details>
+    <details><summary data-i18n="faq3Q">Гарантирует ли сервис просмотры?</summary><p data-i18n="faq3A">Нет. Сервис помогает готовить идеи и сценарии, но просмотры зависят от качества видео, аудитории и других факторов.</p></details>
+    <details><summary data-i18n="faq4Q">Можно ли скопировать результат?</summary><p data-i18n="faq4A">Да. Нажми кнопку копирования над результатом.</p></details>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta">
+    <div><div class="eyebrow" data-i18n="ctaEyebrow">НАЧНИ ПРЯМО СЕЙЧАС</div><h2 data-i18n="ctaTitle">Твоя следующая идея начинается здесь</h2><p data-i18n="ctaText">Создай черновик, проверь его и адаптируй под свою аудиторию.</p></div>
+    <a class="btn" href="#tool" data-i18n="ctaButton">Открыть генератор ↗</a>
+  </div>
+</section>
+</main>
+<footer class="wrap footer"><span>© ClipGenius AI</span><span data-i18n="footerText">Бесплатный сервис для создания контента.</span></footer>
+<div class="toast" id="toast" role="status"></div>
+
 <script>
-const $=id=>document.getElementById(id);let latest='';
-function showToast(s){const t=$('toast');t.textContent=s;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
-function makeDemoContent(){const topic=$('topic').value.trim();if(!topic){$('topic').focus();showToast('Сначала введи тему видео');return}const platform=$('platform').value,tone=$('tone').value,audience=$('audience').value.trim()||'люди, которым интересна эта тема';const openers={curious:['Ты можешь упускать самое важное в теме: '+topic,'А что, если посмотреть на это иначе? '+topic,'Вот что стоит знать про '+topic],expert:['Разберём '+topic+' за короткое время','3 практических шага по теме: '+topic,'Простой план для тех, кто хочет понять: '+topic],fun:['Думал, что '+topic+' — это легко? Есть нюанс!','Когда пытаешься разобраться в теме: '+topic,'Проверим, насколько ты знаком с темой: '+topic],story:['Я бы хотел узнать это раньше: '+topic,'Один вывод, который я сделал про '+topic,'Мой простой подход к теме: '+topic]};const hooks=openers[tone];const hook=hooks[Math.floor(Math.random()*hooks.length)];const bodies={curious:'Начни с вопроса или неожиданного наблюдения. Покажи один конкретный пример, объясни, почему это важно, и предложи зрителю проверить это самостоятельно.',expert:'Сначала назови проблему. Затем объясни её в 2–3 понятных шагах, покажи пример и закончи коротким выводом, который можно применить сразу.',fun:'Начни с узнаваемой ситуации, добавь лёгкий контраст или неожиданность, затем покажи простой вывод. Не затягивай вступление — быстрее переходи к сути.',story:'Расскажи, с чего всё началось, какой момент оказался самым важным и что ты понял. Добавь конкретную деталь из своего опыта, чтобы история звучала живо.'};const duration=platform.includes('длинное')?'4–7 минут':'20–35 секунд';const tags=['#'+topic.toLowerCase().replace(/[^\p{L}\p{N}]+/gu,'').slice(0,24),'#созданиеконтента','#советы','#shorts','#контент'];const title2=hooks[(hooks.indexOf(hook)+1)%hooks.length];latest=`ClipGenius AI — черновик\nТЕМА: ${topic}\nПЛОЩАДКА: ${platform}\nАУДИТОРИЯ: ${audience}\n\nЗАГОЛОВОК / ХУК\n${hook}\n\nСЦЕНАРИЙ (${duration})\n1. ХУК (первые 2–3 секунды): ${hook}\n2. ОСНОВНАЯ ЧАСТЬ: ${bodies[tone]}\n3. ПРИЗЫВ К ДЕЙСТВИЮ: «Сохрани, чтобы попробовать позже, и напиши в комментариях, что добавить в следующую часть».\n\nЕЩЁ ОДИН ВАРИАНТ ЗАГОЛОВКА\n${title2}\n\nПОДСКАЗКА ПО СЪЁМКЕ\nСделай кадр или визуальный пример в первые секунды. Убери длинное вступление, добавь читаемые субтитры и проверь, что звук разборчив.\n\nХЭШТЕГИ\n${tags.join(' ')}\n\nКОНТЕНТ-ПЛАН: СЛЕДУЮЩИЕ 3 РОЛИКА\n• Частая ошибка новичка в теме «${topic}»\n• 3 шага, которые можно попробовать сегодня\n• Ответ на самый частый вопрос аудитории\n\nПримечание: это шаблонный черновик, а не ответ внешней ИИ-модели. Проверь точность и адаптируй под свой опыт.`;const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');$('output').innerHTML='<h4>Черновик для '+esc(platform)+'</h4><div class="resulttitle">'+esc(hook)+'</div><div class="resultbody">'+esc(latest.replace(/^ClipGenius AI — черновик\n/,'')).replace(/\n/g,'<br>')+'</div>';showToast('Черновик готов — проверь и адаптируй под себя')}
+const $ = id => document.getElementById(id);
+let latest = "";
+let currentLanguage = "ru";
+
+const translations = {
+ru:{
+navFeatures:"Возможности",navTool:"Генератор",navFaq:"Вопросы",navStart:"Начать ↗",
+eyebrow:"✦ ТВОЯ ИИ-КОМАНДА ДЛЯ КОНТЕНТА",heroTitle:"Хорошие идеи.<br><em>Быстрее видео.</em>",
+heroLead:"Создавай сценарии, заголовки, описания и хэштеги для видео с помощью ИИ.",
+heroButton:"Создать сценарий ↗",heroLearn:"Возможности",heroMicro:"Без регистрации · Бесплатно · Результат можно скопировать",
+freeBadge:"БЕСПЛАТНО",sampleTopicLabel:"ПРИМЕР ТЕМЫ",sampleTopic:"3 ошибки начинающего автора",samplePlatformLabel:"ПЛАТФОРМА",
+sampleResultLabel:"ПРИМЕР СЦЕНАРИЯ",sampleHeadline:"Ты теряешь зрителей в первые секунды?",sampleText:"Начни с конкретной ошибки, покажи пример и закончи полезным советом.",
+featuresEyebrow:"ВОЗМОЖНОСТИ",featuresTitle:"От идеи до публикации",featuresLead:"Инструменты для авторов, которым нужно создавать контент регулярно.",
+feature1Title:"Сценарии для видео",feature1Text:"Структура, сильное начало, основная часть и финал.",
+feature2Title:"Заголовки и описания",feature2Text:"Несколько вариантов подачи твоей темы.",feature3Title:"Хэштеги",feature3Text:"Идеи релевантных хэштегов для публикации.",
+feature4Title:"Контент-план",feature4Text:"Идеи для следующих видео на основе темы.",feature5Title:"Разные платформы",feature5Text:"TikTok, Shorts, Reels и длинные видео.",feature6Title:"Копирование",feature6Text:"Скопируй готовый результат и доработай его.",
+toolEyebrow:"ПОПРОБУЙ СЕЙЧАС",toolTitle:"Твой генератор контента",toolLead:"Укажи тему и настройки, чтобы создать сценарий с помощью ИИ.",
+freeTitle:"Сервис пока полностью бесплатный",freeText:"Никаких тарифов и оплаты на данном этапе.",
+settingsTitle:"Настройки видео",settingsLead:"Чем точнее тема, тем полезнее результат.",topicLabel:"О чём видео?",topicPlaceholder:"Например: как научиться играть на пианино",
+platformLabel:"Платформа",toneLabel:"Стиль",toneCurious:"Любопытный и интригующий",toneExpert:"Экспертный и понятный",toneFun:"Лёгкий и смешной",toneStory:"Личный рассказ",
+audienceLabel:"Для кого?",audiencePlaceholder:"Например: начинающие музыканты",generateButton:"✨ Создать сценарий",checking:"Проверяем подключение к ИИ…",
+resultTitle:"Результат",resultSubtitle:"Сценарий · заголовки · хэштеги",copyButton:"Копировать",outputPlaceholder:"Введи тему слева и нажми кнопку создания сценария.",
+faqEyebrow:"ВОПРОСЫ",faqTitle:"Полезно знать",faq1Q:"Сервис действительно бесплатный?",faq1A:"Да. Сейчас на сайте нет платных тарифов и приёма платежей. Работа ИИ может зависеть от доступности и лимитов API.",
+faq2Q:"На каком языке создаётся сценарий?",faq2A:"Выбери язык в меню. Интерфейс меняется сразу. Для генерации на выбранном языке сервер также должен получать настройку языка.",
+faq3Q:"Гарантирует ли сервис просмотры?",faq3A:"Нет. Сервис помогает готовить идеи и сценарии, но просмотры зависят от качества видео, аудитории и других факторов.",
+faq4Q:"Можно ли скопировать результат?",faq4A:"Да. Нажми кнопку копирования над результатом.",
+ctaEyebrow:"НАЧНИ ПРЯМО СЕЙЧАС",ctaTitle:"Твоя следующая идея начинается здесь",ctaText:"Создай черновик, проверь его и адаптируй под свою аудиторию.",
+ctaButton:"Открыть генератор ↗",footerText:"Бесплатный сервис для создания контента.",
+topicRequired:"Сначала введи тему видео",working:"Создаю сценарий…",done:"Готово — текст создан ИИ",failed:"Ошибка генерации",copied:"Текст скопирован",nothingToCopy:"Сначала создай сценарий",
+connectionError:"Не удалось получить ответ от ИИ. Проверь подключение и настройки сервера.",
+localDemo:"Локальный просмотр. Для генерации нужен работающий сервер.",serverNoKey:"Сервер работает, но ИИ ещё не настроен.",checkingFailed:"Не удалось проверить сервер.",
+networkHint:"Подключение к ИИ проверяется…"
+},
+en:{
+navFeatures:"Features",navTool:"Generator",navFaq:"FAQ",navStart:"Get started ↗",
+eyebrow:"✦ YOUR AI CONTENT TEAM",heroTitle:"Better ideas.<br><em>Videos, faster.</em>",
+heroLead:"Create video scripts, titles, descriptions and hashtags with AI.",
+heroButton:"Create a script ↗",heroLearn:"Explore features",heroMicro:"No sign-up · Free to use · Copy your results",
+freeBadge:"FREE",sampleTopicLabel:"SAMPLE TOPIC",sampleTopic:"3 mistakes new creators make",samplePlatformLabel:"PLATFORM",
+sampleResultLabel:"SCRIPT EXAMPLE",sampleHeadline:"Are you losing viewers in the first few seconds?",sampleText:"Start with a specific mistake, show an example and finish with a useful tip.",
+featuresEyebrow:"FEATURES",featuresTitle:"From idea to publication",featuresLead:"Simple tools for creators who want to publish consistently.",
+feature1Title:"Video scripts",feature1Text:"A clear structure, strong hook, main points and ending.",
+feature2Title:"Titles and descriptions",feature2Text:"Different ways to present your topic.",feature3Title:"Hashtags",feature3Text:"Relevant hashtag ideas for your post.",
+feature4Title:"Content planning",feature4Text:"Ideas for your next videos based on your topic.",feature5Title:"Multiple platforms",feature5Text:"TikTok, Shorts, Reels and long-form videos.",feature6Title:"Copy your results",feature6Text:"Copy the generated text and make it your own.",
+toolEyebrow:"TRY IT NOW",toolTitle:"Your content generator",toolLead:"Choose a topic and settings to create an AI-assisted script.",
+freeTitle:"The service is currently completely free",freeText:"No paid plans or payments at this stage.",
+settingsTitle:"Video settings",settingsLead:"A specific topic helps create a more useful result.",topicLabel:"What is your video about?",topicPlaceholder:"For example: how to learn piano",
+platformLabel:"Platform",toneLabel:"Style",toneCurious:"Curious and intriguing",toneExpert:"Expert and clear",toneFun:"Light and funny",toneStory:"Personal story",
+audienceLabel:"Target audience",audiencePlaceholder:"For example: beginner musicians",generateButton:"✨ Generate script",checking:"Checking AI connection…",
+resultTitle:"Your result",resultSubtitle:"Script · titles · hashtags",copyButton:"Copy text",outputPlaceholder:"Enter a topic and click Generate script.",
+faqEyebrow:"FAQ",faqTitle:"Good to know",faq1Q:"Is the service really free?",faq1A:"Yes. There are currently no paid plans or payment processing. AI availability may depend on API access and usage limits.",
+faq2Q:"What language will the script use?",faq2A:"Choose a language in the menu. The interface changes immediately. The server must also receive the language setting to generate in that language.",
+faq3Q:"Does the service guarantee views?",faq3A:"No. It helps prepare ideas and scripts, but views depend on video quality, audience and other factors.",
+faq4Q:"Can I copy the result?",faq4A:"Yes. Use the Copy button above the result.",
+ctaEyebrow:"GET STARTED",ctaTitle:"Your next idea starts here",ctaText:"Create a draft, review it and adapt it to your audience.",
+ctaButton:"Open generator ↗",footerText:"A free service for content creation.",
+topicRequired:"Enter a video topic first",working:"Creating your script…",done:"Done — script generated by AI",failed:"Generation failed",copied:"Text copied",nothingToCopy:"Generate a script first",
+connectionError:"Could not get an AI response. Check your connection and server settings.",
+localDemo:"Local preview. A running server is required for generation.",serverNoKey:"The server is running, but AI is not configured.",checkingFailed:"Could not check the server.",
+networkHint:"Checking AI connection…"
+},
+kk:{
+navFeatures:"Мүмкіндіктер",navTool:"Генератор",navFaq:"Сұрақтар",navStart:"Бастау ↗",
+eyebrow:"✦ СЕНІҢ AI КОНТЕНТ КОМАНДАҢ",heroTitle:"Жақсы идеялар.<br><em>Жылдам видео.</em>",
+heroLead:"AI көмегімен видео сценарийлерін, тақырыптарын, сипаттамалары мен хэштегтерін жаса.",
+heroButton:"Сценарий жасау ↗",heroLearn:"Мүмкіндіктер",heroMicro:"Тіркелусіз · Тегін · Нәтижені көшіруге болады",
+freeBadge:"ТЕГІН",sampleTopicLabel:"ТАҚЫРЫП ҮЛГІСІ",sampleTopic:"Жаңадан бастаушылардың 3 қатесі",samplePlatformLabel:"ПЛАТФОРМА",
+sampleResultLabel:"СЦЕНАРИЙ ҮЛГІСІ",sampleHeadline:"Алғашқы секундтарда көрермендерден айырылып жүрсің бе?",sampleText:"Нақты қатеден баста, мысал көрсет және пайдалы кеңеспен аяқта.",
+featuresEyebrow:"МҮМКІНДІКТЕР",featuresTitle:"Идеядан жариялауға дейін",featuresLead:"Тұрақты контент жасайтын авторларға арналған қарапайым құралдар.",
+feature1Title:"Видео сценарийлері",feature1Text:"Қызықты бастау, негізгі бөлім және қорытынды.",feature2Title:"Тақырыптар мен сипаттамалар",feature2Text:"Тақырыпты ұсынудың бірнеше нұсқасы.",
+feature3Title:"Хэштегтер",feature3Text:"Жарияланымға сай хэштег идеялары.",feature4Title:"Контент жоспары",feature4Text:"Келесі видеоларға арналған идеялар.",
+feature5Title:"Әртүрлі платформалар",feature5Text:"TikTok, Shorts, Reels және ұзақ видеолар.",feature6Title:"Нәтижені көшіру",feature6Text:"Дайын мәтінді көшіріп, өзіңе бейімде.",
+toolEyebrow:"ҚАЗІР КӨРІП КӨР",toolTitle:"Контент генераторы",toolLead:"AI сценарийін жасау үшін тақырып пен параметрлерді таңда.",
+freeTitle:"Қызмет әзірге толығымен тегін",freeText:"Қазір ақылы тарифтер мен төлемдер жоқ.",
+settingsTitle:"Видео параметрлері",settingsLead:"Тақырып нақты болса, нәтиже де пайдалы болады.",topicLabel:"Видео не туралы?",topicPlaceholder:"Мысалы: пианинода ойнауды үйрену",
+platformLabel:"Платформа",toneLabel:"Стиль",toneCurious:"Қызықты әрі жұмбақ",toneExpert:"Сарапшылық және түсінікті",toneFun:"Жеңіл әрі күлкілі",toneStory:"Жеке әңгіме",
+audienceLabel:"Кімдерге арналған?",audiencePlaceholder:"Мысалы: бастаушы музыканттар",generateButton:"✨ Сценарий жасау",checking:"AI байланысы тексерілуде…",
+resultTitle:"Нәтиже",resultSubtitle:"Сценарий · тақырыптар · хэштегтер",copyButton:"Көшіру",outputPlaceholder:"Тақырып енгізіп, сценарий жасау түймесін бас.",
+faqEyebrow:"СҰРАҚТАР",faqTitle:"Білген пайдалы",faq1Q:"Қызмет шынымен тегін бе?",faq1A:"Иә. Қазір ақылы тарифтер мен төлемдер жоқ. AI жұмысы API қолжетімділігі мен лимиттеріне байланысты болуы мүмкін.",
+faq2Q:"Сценарий қай тілде жасалады?",faq2A:"Мәзірден тілді таңда. Интерфейс бірден өзгереді. Сценарий сол тілде жасалуы үшін серверге де тіл параметрін жіберу қажет.",
+faq3Q:"Қызмет қаралымға кепілдік бере ме?",faq3A:"Жоқ. Қызмет идеялар мен сценарийлер дайындауға көмектеседі, бірақ қаралым көптеген факторға байланысты.",
+faq4Q:"Нәтижені көшіруге бола ма?",faq4A:"Иә. Нәтиженің үстіндегі көшіру түймесін бас.",
+ctaEyebrow:"ҚАЗІР БАСТА",ctaTitle:"Келесі идеяң осы жерден басталады",ctaText:"Жоба жаса, тексер және аудиторияңа бейімде.",
+ctaButton:"Генераторды ашу ↗",footerText:"Контент жасауға арналған тегін қызмет.",
+topicRequired:"Алдымен видео тақырыбын енгіз",working:"Сценарий жасалуда…",done:"Дайын — сценарий AI арқылы жасалды",failed:"Жасау қатесі",copied:"Мәтін көшірілді",nothingToCopy:"Алдымен сценарий жаса",
+connectionError:"AI жауабын алу мүмкін болмады. Байланыс пен сервер параметрлерін тексер.",
+localDemo:"Жергілікті алдын ала қарау. Генерация үшін сервер қажет.",serverNoKey:"Сервер жұмыс істеп тұр, бірақ AI бапталмаған.",checkingFailed:"Серверді тексеру мүмкін болмады.",
+networkHint:"AI байланысы тексерілуде…"
+},
+zh:{
+navFeatures:"功能",navTool:"生成器",navFaq:"常见问题",navStart:"开始使用 ↗",
+eyebrow:"✦ 你的 AI 内容团队",heroTitle:"更好的创意。<br><em>更快的视频。</em>",
+heroLead:"使用 AI 创建视频脚本、标题、描述和标签。",
+heroButton:"创建脚本 ↗",heroLearn:"查看功能",heroMicro:"无需注册 · 免费使用 · 可复制结果",
+freeBadge:"免费",sampleTopicLabel:"示例主题",sampleTopic:"新手创作者常犯的 3 个错误",samplePlatformLabel:"平台",
+sampleResultLabel:"脚本示例",sampleHeadline:"你是否在最初几秒就失去了观众？",sampleText:"从一个具体错误开始，展示示例，并以实用建议结束。",
+featuresEyebrow:"功能",featuresTitle:"从创意到发布",featuresLead:"为希望持续发布内容的创作者提供简单工具。",
+feature1Title:"视频脚本",feature1Text:"清晰的结构、吸引人的开头、正文和结尾。",
+feature2Title:"标题和描述",feature2Text:"用不同方式呈现你的主题。",feature3Title:"话题标签",feature3Text:"为发布内容提供相关标签建议。",
+feature4Title:"内容计划",feature4Text:"根据主题生成后续视频创意。",feature5Title:"多个平台",feature5Text:"TikTok、Shorts、Reels 和长视频。",
+feature6Title:"复制结果",feature6Text:"复制生成的文本并进行个性化修改。",
+toolEyebrow:"立即试用",toolTitle:"你的内容生成器",toolLead:"选择主题和设置，生成 AI 辅助脚本。",
+freeTitle:"目前本服务完全免费",freeText:"现阶段没有付费套餐，也不收取费用。",
+settingsTitle:"视频设置",settingsLead:"主题越具体，结果越有用。",topicLabel:"视频主题是什么？",topicPlaceholder:"例如：如何学习弹钢琴",
+platformLabel:"平台",toneLabel:"风格",toneCurious:"好奇且引人入胜",toneExpert:"专业清晰",toneFun:"轻松有趣",toneStory:"个人故事",
+audienceLabel:"目标受众",audiencePlaceholder:"例如：音乐初学者",generateButton:"✨ 生成脚本",checking:"正在检查 AI 连接…",
+resultTitle:"生成结果",resultSubtitle:"脚本 · 标题 · 标签",copyButton:"复制文本",outputPlaceholder:"输入主题，然后点击生成脚本。",
+faqEyebrow:"常见问题",faqTitle:"使用须知",faq1Q:"服务真的免费吗？",faq1A:"是的。目前没有付费套餐或支付功能。AI 服务可能受到 API 可用性和使用限制影响。",
+faq2Q:"脚本会使用什么语言？",faq2A:"在菜单中选择语言，界面会立即切换。服务器也需要接收语言设置，才能用该语言生成脚本。",
+faq3Q:"服务能保证播放量吗？",faq3A:"不能。服务可以帮助准备创意和脚本，但播放量取决于视频质量、受众等因素。",
+faq4Q:"可以复制结果吗？",faq4A:"可以。点击结果上方的复制按钮。",
+ctaEyebrow:"立即开始",ctaTitle:"你的下一个创意从这里开始",ctaText:"生成草稿、检查内容，并根据受众进行调整。",
+ctaButton:"打开生成器 ↗",footerText:"免费的内容创作服务。",
+topicRequired:"请先输入视频主题",working:"正在生成脚本…",done:"完成 — AI 已生成脚本",failed:"生成失败",copied:"文本已复制",nothingToCopy:"请先生成脚本",
+connectionError:"无法获取 AI 回复。请检查网络连接和服务器设置。",
+localDemo:"本地预览。生成内容需要运行中的服务器。",serverNoKey:"服务器正在运行，但尚未配置 AI。",checkingFailed:"无法检查服务器。",
+networkHint:"正在检查 AI 连接…"
+},
+ar:{
+navFeatures:"المميزات",navTool:"مولّد المحتوى",navFaq:"الأسئلة الشائعة",navStart:"ابدأ ↗",
+eyebrow:"✦ فريقك لصناعة المحتوى بالذكاء الاصطناعي",heroTitle:"أفكار أفضل.<br><em>فيديوهات أسرع.</em>",
+heroLead:"أنشئ نصوص الفيديو والعناوين والأوصاف والوسوم باستخدام الذكاء الاصطناعي.",
+heroButton:"أنشئ نصاً ↗",heroLearn:"استكشف المميزات",heroMicro:"دون تسجيل · مجاني · يمكنك نسخ النتائج",
+freeBadge:"مجاني",sampleTopicLabel:"مثال على موضوع",sampleTopic:"3 أخطاء يرتكبها صناع المحتوى الجدد",samplePlatformLabel:"المنصة",
+sampleResultLabel:"مثال على النص",sampleHeadline:"هل تخسر المشاهدين في الثواني الأولى؟",sampleText:"ابدأ بخطأ محدد، واعرض مثالاً، ثم اختم بنصيحة مفيدة.",
+featuresEyebrow:"المميزات",featuresTitle:"من الفكرة إلى النشر",featuresLead:"أدوات بسيطة لصناع المحتوى الذين يريدون النشر باستمرار.",
+feature1Title:"نصوص الفيديو",feature1Text:"بنية واضحة وبداية جذابة ومحتوى وخاتمة.",feature2Title:"العناوين والأوصاف",feature2Text:"طرق متعددة لعرض موضوعك.",
+feature3Title:"الوسوم",feature3Text:"اقتراحات لوسوم مناسبة لمنشورك.",feature4Title:"خطة المحتوى",feature4Text:"أفكار لمقاطعك القادمة بناءً على الموضوع.",
+feature5Title:"منصات متعددة",feature5Text:"TikTok وShorts وReels والفيديوهات الطويلة.",feature6Title:"نسخ النتائج",feature6Text:"انسخ النص الناتج وعدّله ليناسبك.",
+toolEyebrow:"جرّبه الآن",toolTitle:"مولّد المحتوى الخاص بك",toolLead:"اختر موضوعاً وإعدادات لإنشاء نص بمساعدة الذكاء الاصطناعي.",
+freeTitle:"الخدمة مجانية بالكامل في الوقت الحالي",freeText:"لا توجد باقات مدفوعة أو عمليات دفع حالياً.",
+settingsTitle:"إعدادات الفيديو",settingsLead:"كلما كان الموضوع محدداً، كانت النتيجة أكثر فائدة.",topicLabel:"ما موضوع الفيديو؟",topicPlaceholder:"مثال: كيف تتعلم العزف على البيانو",
+platformLabel:"المنصة",toneLabel:"الأسلوب",toneCurious:"فضولي ومشوّق",toneExpert:"احترافي وواضح",toneFun:"خفيف ومضحك",toneStory:"قصة شخصية",
+audienceLabel:"الجمهور المستهدف",audiencePlaceholder:"مثال: الموسيقيون المبتدئون",generateButton:"✨ أنشئ النص",checking:"جارٍ التحقق من اتصال الذكاء الاصطناعي…",
+resultTitle:"النتيجة",resultSubtitle:"النص · العناوين · الوسوم",copyButton:"نسخ النص",outputPlaceholder:"أدخل موضوعاً ثم اضغط على إنشاء النص.",
+faqEyebrow:"الأسئلة الشائعة",faqTitle:"معلومات مفيدة",faq1Q:"هل الخدمة مجانية حقاً؟",faq1A:"نعم. لا توجد حالياً باقات مدفوعة أو مدفوعات. قد يعتمد توفر الذكاء الاصطناعي على حدود واجهة API.",
+faq2Q:"بأي لغة سيتم إنشاء النص؟",faq2A:"اختر اللغة من القائمة لتغيير الواجهة. ويجب أن يستقبل الخادم إعداد اللغة أيضاً لإنشاء النص بها.",
+faq3Q:"هل تضمن الخدمة المشاهدات؟",faq3A:"لا. تساعد الخدمة في إعداد الأفكار والنصوص، لكن المشاهدات تعتمد على جودة الفيديو والجمهور وعوامل أخرى.",
+faq4Q:"هل يمكنني نسخ النتيجة؟",faq4A:"نعم. اضغط على زر النسخ أعلى النتيجة.",
+ctaEyebrow:"ابدأ الآن",ctaTitle:"فكرتك القادمة تبدأ هنا",ctaText:"أنشئ مسودة وراجعها وعدّلها لتناسب جمهورك.",
+ctaButton:"افتح المولّد ↗",footerText:"خدمة مجانية لإنشاء المحتوى.",
+topicRequired:"أدخل موضوع الفيديو أولاً",working:"جارٍ إنشاء النص…",done:"تم إنشاء النص بواسطة الذكاء الاصطناعي",failed:"فشل الإنشاء",copied:"تم نسخ النص",nothingToCopy:"أنشئ نصاً أولاً",
+connectionError:"تعذّر الحصول على رد من الذكاء الاصطناعي. تحقق من الاتصال وإعدادات الخادم.",
+localDemo:"معاينة محلية. يلزم تشغيل الخادم لإنشاء المحتوى.",serverNoKey:"الخادم يعمل لكن الذكاء الاصطناعي غير مضبوط.",checkingFailed:"تعذّر التحقق من الخادم.",
+networkHint:"جارٍ التحقق من الاتصال…"
+}
+};
+
+function tr(key){
+  return (translations[currentLanguage] && translations[currentLanguage][key])
+    || translations.en[key] || translations.ru[key] || key;
+}
+
+function applyLanguage(language){
+  currentLanguage = translations[language] ? language : "ru";
+  document.documentElement.lang = currentLanguage;
+  document.documentElement.dir = currentLanguage === "ar" ? "rtl" : "ltr";
+  document.title = "ClipGenius AI — " + ({
+    ru:"Создавай контент быстрее",en:"AI Video Creator",kk:"Контент генераторы",
+    zh:"AI 视频创作工具",ar:"منشئ الفيديو بالذكاء الاصطناعي"
+  }[currentLanguage]);
+
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const key=el.dataset.i18n;
+    el.textContent=tr(key);
+  });
+  document.querySelectorAll("[data-i18n-html]").forEach(el=>{
+    const key=el.dataset.i18nHtml;
+    el.innerHTML=tr(key);
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{
+    el.placeholder=tr(el.dataset.i18nPlaceholder);
+  });
+
+  $("language").value=currentLanguage;
+  try{localStorage.setItem("clipgenius-language",currentLanguage)}catch(e){}
+  if($("output").querySelector(".placeholder")){
+    $("output").innerHTML='<span class="placeholder"></span>';
+    $("output").firstElementChild.textContent=tr("outputPlaceholder");
+  }
+  $("modeNote").textContent=tr("networkHint");
+}
+
+$("language").addEventListener("change",e=>applyLanguage(e.target.value));
+
+function showToast(message){
+  const toast=$("toast");
+  toast.textContent=message;
+  toast.classList.add("show");
+  clearTimeout(showToast.timer);
+  showToast.timer=setTimeout(()=>toast.classList.remove("show"),2300);
+}
 
 async function makeContent(){
- const topic=$('topic').value.trim();
- if(!topic){$('topic').focus();showToast('Сначала введи тему видео');return}
- const button=$('generate'); button.disabled=true; button.textContent='Создаю…';
- try {
-   const response=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-     topic, platform:$('platform').value, tone:$('tone').value, audience:$('audience').value.trim()
-   })});
-   const data=await response.json().catch(()=>({}));
-   if(!response.ok) throw new Error(data.error || 'Не удалось подключиться к ИИ');
-   latest=data.text || '';
-   $('output').textContent=latest;
-   showToast('Готово — текст создан ИИ');
- } catch(error) {
-   // Local file previews have no backend; keep the demo usable but label it honestly.
-   if(location.protocol==='file:' || location.hostname==='localhost' && location.port==='0') {
-     makeDemoContent();
-     showToast('Демо-черновик: для настоящего ИИ запусти сервер');
-   } else {
-     $('output').textContent='Не удалось получить ответ от ИИ. Проверь подключение и настройки сервера.\\n\\nПодробности: '+error.message;
-     showToast('Ошибка генерации');
-   }
- } finally {button.disabled=false;button.textContent='Сгенерировать черновик ✦'}
-}
-$('generate').addEventListener('click',makeContent);$('copy').addEventListener('click',async()=>{if(!latest){showToast('Сначала создай черновик');return}try{await navigator.clipboard.writeText(latest);showToast('Текст скопирован')}catch(e){const ta=document.createElement('textarea');ta.value=latest;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();showToast('Текст скопирован')}});
-(async function checkBackend(){
- const note=document.getElementById('modeNote');
- if(!note) return;
- if(location.protocol==='file:'){note.textContent='Локальное демо. Для настоящего ИИ запусти сервер из комплекта.';return;}
- try{
-  const r=await fetch('/api/health'); const d=await r.json();
-  note.textContent=d.aiConfigured?'Подключён ИИ · '+d.model:'Сервер работает, но API-ключ ИИ ещё не добавлен.';
- }catch(e){note.textContent='Не удалось проверить сервер. Проверь подключение.';}
-})();
+  const topic=$("topic").value.trim();
+  if(!topic){$("topic").focus();showToast(tr("topicRequired"));return}
+  const button=$("generate");
+  button.disabled=true;
+  button.textContent=tr("working");
 
-document.querySelectorAll('[data-plan]').forEach(b=>b.addEventListener('click',()=>showToast('Тариф '+b.dataset.plan+' пока не подключён')));
-</script></body></html>
+  try{
+    const response=await fetch("/api/generate",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        topic,
+        platform:$("platform").value,
+        tone:$("tone").value,
+        audience:$("audience").value.trim(),
+        language:currentLanguage
+      })
+    });
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok)throw new Error(data.error||tr("connectionError"));
+    latest=data.text||"";
+    $("output").textContent=latest||tr("connectionError");
+    showToast(tr("done"));
+  }catch(error){
+    $("output").textContent=tr("connectionError")+"\n\n"+error.message;
+    showToast(tr("failed"));
+  }finally{
+    button.disabled=false;
+    button.textContent=tr("generateButton");
+  }
+}
+
+$("generate").addEventListener("click",makeContent);
+
+$("copy").addEventListener("click",async()=>{
+  if(!latest){showToast(tr("nothingToCopy"));return}
+  try{
+    await navigator.clipboard.writeText(latest);
+    showToast(tr("copied"));
+  }catch(error){
+    const textarea=document.createElement("textarea");
+    textarea.value=latest;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    textarea.remove();
+    showToast(tr("copied"));
+  }
+});
+
+async function checkBackend(){
+  const note=$("modeNote");
+  try{
+    const response=await fetch("/api/health");
+    const data=await response.json();
+    note.textContent=data.aiConfigured
+      ? "✓ "+data.model
+      : tr("serverNoKey");
+  }catch(error){
+    note.textContent=tr("checkingFailed");
+  }
+}
+
+try{
+  const saved=localStorage.getItem("clipgenius-language");
+  if(saved&&translations[saved])currentLanguage=saved;
+}catch(error){}
+
+applyLanguage(currentLanguage);
+checkBackend();
+</script>
+</body>
+</html>
