@@ -50,12 +50,10 @@ function rateLimited(ip) {
   return old.count > MAX_REQUESTS_PER_WINDOW;
 }
 function makePrompt({ topic, platform, tone, audience }) {
-const toneNames = {
     curious: "интригующий, вызывающий любопытство без кликбейта",
-expert: “экспертный, ясный и практичный”,
-fun: “живой, энергичный и уместно смешной”,
-story: “личный рассказ с конкретными деталями”
-};
+    expert: "экспертный, ясный и практичный",
+    fun: "живой, энергичный и уместно смешной",
+    story: "личный рассказ с конкретными деталями"
 
 const platformNames = {
 TikTok: “TikTok: быстрый темп, сильный хук в первые секунды, короткие фразы”,
