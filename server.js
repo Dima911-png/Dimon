@@ -1,317 +1,378 @@
 
-const http = require("node:http");
-const fs = require("node:fs");
-const path = require("node:path");
+'use strict';
+
+const http = require('node:http');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const PORT = Number(process.env.PORT || 3000);
-const API_KEY = process.env.GEMINI_API_KEY || "";
-const MODEL = process.env.GEMINI_MODEL || "gemini-3.6-flash";
+const API_KEY = process.env.GEMINI_API_KEY || '';
+const MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
 const ROOT = __dirname;
-const MAX_BODY = 12000;
-const WINDOW_MS = 60000;
-const MAX_REQUESTS_PER_WINDOW = 8;
-const requests = new Map();
 
-function send(res, status, body, type = "application/json; charset=utf-8") {
+const LANGS = {
+  ru: 'Russian',
+  en: 'English',
+  kk: 'Kazakh',
+  zh: 'Simplified Chinese',
+  ar: 'Arabic'
+};
+
+const ACTIONS = [
+  'script',
+  'viral',
+  'timed',
+  'calendar',
+  'titles',
+  'rewrite'
+];
+
+const limits = new Map();
+
+function send(res, status, data) {
   res.writeHead(status, {
-    "Content-Type": type,
-    "X-Content-Type-Options": "nosniff",
-    "Referrer-Policy": "strict-origin-when-cross-origin",
-    "X-Frame-Options": "DENY",
-    "Cache-Control": "no-store"
+    'Content-Type': 'application/json; charset=utf-8',
+    'Cache-Control': 'no-store'
   });
-
-  res.end(
-    type.startsWith("application/json")
-      ? JSON.stringify(body)
-      : body
-  );
+  res.end(JSON.stringify(data));
 }
 
-function readJson(req) {
-  return new Promise((resolve, reject) => {
-    let raw = "";
-    let finished = false;
-
-    req.on("data", chunk => {
-      if (finished) return;
-
-      raw += chunk.toString("utf8");
-
-      if (Buffer.byteLength(raw, "utf8") > MAX_BODY) {
-        finished = true;
-        reject(new Error("Запрос слишком большой"));
-        req.resume();
-      }
-    });
-
-    req.on("end", () => {
-      if (finished) return;
-
-      try {
-        resolve(JSON.parse(raw || "{}"));
-      } catch {
-        reject(new Error("Некорректный JSON"));
-      }
-    });
-
-    req.on("error", err => {
-      if (!finished) reject(err);
-    });
-  });
-}
-
-function rateLimited(ip) {
+function limited(req) {
+  const ip = req.socket.remoteAddress || 'unknown';
   const now = Date.now();
-  const old = requests.get(ip);
+  let entry = limits.get(ip) || { start: now, count: 0 };
 
-  if (!old || now - old.start >= WINDOW_MS) {
-    requests.set(ip, { start: now, count: 1 });
-    return false;
+  if (now - entry.start > 60000) {
+    entry = { start: now, count: 0 };
   }
 
-  old.count += 1;
-  return old.count > MAX_REQUESTS_PER_WINDOW;
+  entry.count++;
+  limits.set(ip, entry);
+  return entry.count > 10;
 }
 
-function makePrompt({ topic, platform, tone, audience }) {
-  const toneNames = {
-    curious: "интригующий, вызывающий любопытство без кликбейта",
-    expert: "экспертный, ясный и практичный",
-    fun: "живой, энергичный и уместно смешной",
-    story: "личный рассказ с конкретными деталями"
+function readBody(req) {
+  return new Promise((resolve, reject) => {
+    let raw = '';
+
+    req.on('data', chunk => {
+      raw += chunk;
+
+      if (raw.length > 20000) {
+        reject(new Error('Request too large'));
+        req.destroy();
+      }
+    });
+
+    req.on('end', () => {
+      try {
+        resolve(JSON.parse(raw || '{}'));
+      } catch {
+        reject(new Error('Invalid JSON'));
+      }
+    });
+
+    req.on('error', reject);
+  });
+}
+
+function promptFor(d) {
+  const lang = LANGS[d.language] || 'Russian';
+
+  const context = `
+Write entirely in ${lang}.
+Be specific, creative, natural and useful.
+Never guarantee viral success or a particular number of views.
+
+Topic: ${d.topic}
+Platform: ${d.platform || 'TikTok'}
+Style: ${d.tone || 'engaging'}
+Target audience: ${d.audience || 'general audience'}
+`;
+
+  const prompts = {
+    script: `
+Create a complete video package:
+1. Five opening hooks.
+2. A ready-to-record script.
+3. Suggested on-screen text and subtitles.
+4. Visual ideas and editing instructions.
+5. A call to action.
+6. Three titles and a description.
+7. Eight relevant hashtags.
+8. Three ideas for follow-up videos.
+
+For long YouTube videos, include a detailed outline,
+sections and approximate durations.
+${context}
+`,
+
+    viral: `
+Generate 15 original video ideas.
+For each idea include a title, opening hook,
+main payoff, suggested format and why viewers
+might find it interesting.
+Rank the five strongest ideas.
+Do not promise viral results.
+${context}
+`,
+
+    timed: `
+Create a detailed editing plan for a video.
+Use 30-60 seconds for short-form videos.
+For long-form videos, choose a suitable duration.
+
+Include timestamps, voiceover, subtitles,
+visuals, cuts, transitions, sound cues,
+pacing and a complete spoken script.
+${context}
+`,
+
+    calendar: `
+Create a ${d.days === 30 ? 30 : 7}-day content calendar.
+For each day include the topic, hook, format,
+outline, call to action, title and hashtags.
+Vary the ideas and avoid repetition.
+${context}
+`,
+
+    titles: `
+Generate 20 titles grouped by curiosity,
+benefits, storytelling and search intent.
+Also create five descriptions, 15 hashtags
+and five thumbnail concepts with exact cover text.
+${context}
+`,
+
+    rewrite: `
+Improve the user's draft without changing
+its core meaning.
+
+Return:
+1. The improved complete version.
+2. A stronger opening hook.
+3. A clearer structure.
+4. Tighter wording.
+5. Suggested cuts and editing improvements.
+6. A brief explanation of the changes.
+
+Draft:
+${d.draft || ''}
+
+${context}
+`
   };
 
-  const platformNames = {
-    "TikTok": "TikTok: динамичный вертикальный ролик с сильным началом",
-    "YouTube Shorts": "YouTube Shorts: короткое видео с быстрым темпом и ясным финалом",
-    "Instagram Reels": "Instagram Reels: визуально привлекательный вертикальный ролик",
-    "YouTube — длинное видео": "YouTube: подробное видео с логичной структурой и раскрытием темы"
-  };
+  return prompts[d.action] || prompts.script;
+}
 
-  return `Ты — профессиональный сценарист, редактор видео и контент-стратег.
+async function generate(d) {
+  if (!API_KEY) {
+    throw Object.assign(
+      new Error('Add GEMINI_API_KEY in Render Environment.'),
+      { status: 503 }
+    );
+  }
 
-Создай оригинальный, конкретный и полезный материал, который автор сможет использовать для подготовки видео.
+  if (
+    typeof d.topic !== 'string' ||
+    d.topic.trim().length < 3
+  ) {
+    throw Object.assign(
+      new Error('Enter a topic of at least 3 characters.'),
+      { status: 400 }
+    );
+  }
 
-ТЕМА: ${topic}
-ПЛАТФОРМА: ${platformNames[platform] || platform}
-СТИЛЬ: ${toneNames[tone] || toneNames.curious}
-ЦЕЛЕВАЯ АУДИТОРИЯ: ${audience || "люди, которым интересна эта тема"}
+  if (d.topic.length > 500) {
+    throw Object.assign(
+      new Error('Topic must be no longer than 500 characters.'),
+      { status: 400 }
+    );
+  }
 
-ГЛАВНЫЕ ПРАВИЛА:
-- Раскрывай именно указанную тему, а не пиши общие советы.
-- Используй естественный, современный русский язык.
-- Не повторяй одну мысль разными словами.
-- Не выдумывай факты, статистику, источники или личный опыт автора.
-- Не обещай вирусные просмотры, подписчиков или заработок.
-- Начало должно заинтересовать зрителя, но не вводить его в заблуждение.
-- Учитывай формат выбранной платформы.
-- Для коротких видео пиши сценарий примерно на 20–60 секунд, если тема позволяет.
-- Для длинных видео предлагай подходящую продолжительность и подробную структуру.
-- Если тема требует проверки фактов, прямо укажи это.
+  if (!ACTIONS.includes(d.action || 'script')) {
+    throw Object.assign(
+      new Error('Unknown generator action.'),
+      { status: 400 }
+    );
+  }
 
-СТРУКТУРА ОТВЕТА:
+  if (
+    d.action === 'rewrite' &&
+    (!d.draft || d.draft.trim().length < 3)
+  ) {
+    throw Object.assign(
+      new Error('Paste a draft to rewrite.'),
+      { status: 400 }
+    );
+  }
 
-1. ИДЕЯ ВИДЕО
-Кратко объясни, о чём видео и почему оно будет интересно аудитории.
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 60000);
 
-2. ТРИ СИЛЬНЫХ ХУКА
-Предложи три разных варианта начала. Они должны быстро привлечь внимание и соответствовать теме.
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(MODEL)}:generateContent`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': API_KEY
+        },
+        body: JSON.stringify({
+          systemInstruction: {
+            parts: [{
+              text:
+                'You are ClipGenius AI, a professional video ' +
+                'scriptwriter, content strategist and editing assistant. ' +
+                'Follow the requested format. Never guarantee views.'
+            }]
+          },
+          contents: [{
+            parts: [{ text: promptFor({
+              ...d,
+              action: d.action || 'script'
+            }) }]
+          }],
+          generationConfig: {
+            temperature: 0.85,
+            maxOutputTokens:
+              d.action === 'calendar' && d.days === 30
+                ? 7000
+                : 5000
+          }
+        }),
+        signal: controller.signal
+      }
+    );
 
-3. ГОТОВЫЙ СЦЕНАРИЙ
-Разбей его на этапы с примерным таймингом.
-Для каждого этапа укажи:
-- Точный текст, который говорит автор.
-- Что зритель видит на экране.
-- Какие кадры, приближения, переходы или визуальные акценты нужны.
+    const data = await response.json().catch(() => ({}));
 
-4. СУБТИТРЫ И МОНТАЖ
-Предложи короткие акцентные фразы для субтитров.
-Укажи, где полезны смена кадра, приближение и удаление лишних пауз.
-Не предлагай неестественно ускорять речь.
+    if (!response.ok) {
+      const message =
+        data?.error?.message ||
+        `Gemini API error (${response.status})`;
 
-5. ФИНАЛ
-Напиши естественную концовку и один подходящий призыв к действию.
+      throw Object.assign(new Error(message), { status: 502 });
+    }
 
-6. ОПИСАНИЕ ПУБЛИКАЦИИ
-Подготовь короткое описание для выбранной платформы.
+    const result = (data.candidates || [])
+      .flatMap(candidate => candidate.content?.parts || [])
+      .map(part => part.text || '')
+      .join('\n')
+      .trim();
 
-7. ХЭШТЕГИ
-Предложи 5–8 релевантных хэштегов.
+    if (!result) {
+      throw Object.assign(
+        new Error('Empty AI response. Please try again.'),
+        { status: 502 }
+      );
+    }
 
-8. ТРИ НОВЫЕ ИДЕИ
-Предложи три конкретных продолжения темы для будущих видео.
-
-Перед выдачей проверь, что материал логичен, конкретен, не повторяется и соответствует теме.
-Не показывай внутренние рассуждения. Выведи только готовый результат с понятными заголовками.`;
+    return result;
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 const server = http.createServer(async (req, res) => {
-  let url;
+  const url = new URL(req.url, 'http://localhost');
 
-  try {
-    url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
-  } catch {
-    return send(res, 400, { error: "Некорректный адрес запроса." });
-  }
-
-  if (req.method === "GET" && url.pathname === "/api/health") {
+  if (req.method === 'GET' && url.pathname === '/api/health') {
     return send(res, 200, {
       ok: true,
       aiConfigured: Boolean(API_KEY),
-      model: MODEL
+      model: MODEL,
+      features: ACTIONS
     });
   }
 
-  if (req.method === "POST" && url.pathname === "/api/generate") {
-    const ip = (
-      req.headers["x-forwarded-for"] ||
-      req.socket.remoteAddress ||
-      "unknown"
-    ).toString().split(",")[0].trim();
-
-    if (rateLimited(ip)) {
+  if (req.method === 'POST' && url.pathname === '/api/generate') {
+    if (limited(req)) {
       return send(res, 429, {
-        error: "Слишком много запросов. Подожди минуту и попробуй снова."
-      });
-    }
-
-    let input;
-
-    try {
-      input = await readJson(req);
-    } catch (err) {
-      return send(res, 400, {
-        error: err.message || "Некорректный запрос."
-      });
-    }
-
-    const topic = typeof input.topic === "string" ? input.topic.trim() : "";
-    const platform = typeof input.platform === "string" ? input.platform : "TikTok";
-    const tone = typeof input.tone === "string" ? input.tone : "curious";
-    const audience = typeof input.audience === "string" ? input.audience.trim() : "";
-
-    const platforms = [
-      "TikTok",
-      "YouTube Shorts",
-      "Instagram Reels",
-      "YouTube — длинное видео"
-    ];
-
-    const tones = ["curious", "expert", "fun", "story"];
-
-    if (topic.length < 3 || topic.length > 500) {
-      return send(res, 400, {
-        error: "Тема должна содержать от 3 до 500 символов."
-      });
-    }
-
-    if (!platforms.includes(platform)) {
-      return send(res, 400, { error: "Неизвестная платформа." });
-    }
-
-    if (!tones.includes(tone)) {
-      return send(res, 400, { error: "Неизвестный стиль." });
-    }
-
-    if (audience.length > 150) {
-      return send(res, 400, {
-        error: "Описание аудитории слишком длинное."
-      });
-    }
-
-    if (!API_KEY) {
-      return send(res, 503, {
-        error: "ИИ не подключён. Проверь настройку GEMINI_API_KEY в Render."
+        ok: false,
+        error: 'Too many requests. Wait one minute and try again.'
       });
     }
 
     try {
-      const upstream = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(MODEL)}:generateContent`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-goog-api-key": API_KEY
-          },
-          body: JSON.stringify({
-            systemInstruction: {
-              parts: [{
-                text: "Ты профессиональный русскоязычный сценарист и контент-стратег. Создавай оригинальные, конкретные и полезные материалы. Не выдумывай факты и не обещай просмотры или заработок."
-              }]
-            },
-            contents: [{
-              role: "user",
-              parts: [{
-                text: makePrompt({ topic, platform, tone, audience })
-              }]
-            }],
-            generationConfig: {
-              temperature: 0.85,
-              maxOutputTokens: 3000
-            }
-          }),
-          signal: AbortSignal.timeout(45000)
-        }
-      );
+      const data = await readBody(req);
+      const result = await generate(data);
 
-      const payload = await upstream.json().catch(() => ({}));
-
-      if (!upstream.ok) {
-        console.error(
-          "Gemini API error:",
-          upstream.status,
-          payload?.error?.message || "Unknown provider error"
-        );
-
-        return send(res, 502, {
-          error: "ИИ не смог обработать запрос. Проверь модель, API-ключ и лимиты Gemini."
-        });
-      }
-
-      const text = (payload.candidates || [])
-        .flatMap(candidate => candidate.content?.parts || [])
-        .map(part => part.text || "")
-        .join("\n")
-        .trim();
-
-      if (!text) {
-        return send(res, 502, {
-          error: "ИИ вернул пустой ответ. Попробуй другую формулировку темы."
-        });
-      }
-
-      return send(res, 200, { text, model: MODEL });
-    } catch (err) {
-      console.error("Generation failed:", err.message);
-
-      return send(res, 502, {
-        error: "Не удалось связаться с ИИ. Попробуй позже."
+      return send(res, 200, {
+        ok: true,
+        text: result,
+        action: data.action || 'script',
+        model: MODEL
+      });
+    } catch (error) {
+      return send(res, error.status || 400, {
+        ok: false,
+        error: error.name === 'AbortError'
+          ? 'AI request timed out. Please try again.'
+          : error.message || 'Generation failed.'
       });
     }
   }
 
-  if (req.method === "GET" &&
-      (url.pathname === "/" || url.pathname === "/index.html")) {
-    try {
-      const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
-      return send(res, 200, html, "text/html; charset=utf-8");
-    } catch {
-      return send(res, 500, "Не найден index.html", "text/plain; charset=utf-8");
+  let pathname;
+
+  try {
+    pathname = decodeURIComponent(url.pathname);
+  } catch {
+    return send(res, 400, { error: 'Invalid URL' });
+  }
+
+  if (pathname === '/') pathname = '/index.html';
+
+  const file = path.resolve(ROOT, '.' + pathname);
+
+  if (
+    !file.startsWith(ROOT + path.sep) &&
+    file !== path.join(ROOT, 'index.html')
+  ) {
+    return send(res, 403, { error: 'Forbidden' });
+  }
+
+  fs.readFile(file, (error, buffer) => {
+    if (error) {
+      res.writeHead(404, {
+        'Content-Type': 'text/plain; charset=utf-8'
+      });
+      return res.end('Not found');
     }
-  }
 
-  if (req.method === "GET" && url.pathname === "/favicon.ico") {
-    res.writeHead(204);
-    return res.end();
-  }
+    const ext = path.extname(file);
+    const types = {
+      '.html': 'text/html; charset=utf-8',
+      '.js': 'text/javascript; charset=utf-8',
+      '.css': 'text/css; charset=utf-8',
+      '.svg': 'image/svg+xml',
+      '.png': 'image/png',
+      '.ico': 'image/x-icon'
+    };
 
-  return send(res, 404, { error: "Не найдено" });
+    res.writeHead(200, {
+      'Content-Type':
+        types[ext] || 'application/octet-stream',
+      'X-Content-Type-Options': 'nosniff'
+    });
+
+    res.end(buffer);
+  });
 });
 
-server.listen(PORT, "0.0.0.0", () => {
-  console.log(`ClipGenius AI running on port ${PORT}`);
-  console.log(`AI ${API_KEY ? "configured" : "NOT configured — set GEMINI_API_KEY"}`);
-  console.log(`Model: ${MODEL}`);
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(
+    `ClipGenius AI running on port ${PORT}; ` +
+    `model=${MODEL}; keyConfigured=${Boolean(API_KEY)}`
+  );
 });
+
+
+
+      
+                
+          
+      
