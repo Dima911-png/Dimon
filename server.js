@@ -51,7 +51,7 @@ function rateLimited(ip) {
 }
 function makePrompt({ topic, platform, tone, audience }) {
 const toneNames = {
-curious: “интригующий, вызывающий любопытство без кликбейта”,
+    curious: "интригующий, вызывающий любопытство без кликбейта",
 expert: “экспертный, ясный и практичный”,
 fun: “живой, энергичный и уместно смешной”,
 story: “личный рассказ с конкретными деталями”
